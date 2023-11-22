@@ -1,0 +1,33 @@
+version: '3'
+services:
+  main:
+    container_name: main
+    restart: always
+    build: .
+#    TODO rm this dev
+    volumes:
+      - ./src:/ohif/app/main/src
+    command: [ 'npm', 'run', 'start:dev' ]
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+
+  cache:
+    image: redis:6.2-alpine
+    container_name: redis-cache
+    restart: always
+    ports:
+      - '6379:6379'
+
+  postgres:
+    container_name: development-postgres
+    image: postgres:16.1
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env
+volumes:
+  postgres_data:
+    driver: local
