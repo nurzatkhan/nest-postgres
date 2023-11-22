@@ -13,7 +13,7 @@ import { Queue } from 'bull';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -49,7 +49,8 @@ export class UserService {
       { delay: 10000 },
     );
 
-    return { message: 'SUCCES' };
+    delete user.password;
+    return user;
   }
 
   async findOne(id: number) {
